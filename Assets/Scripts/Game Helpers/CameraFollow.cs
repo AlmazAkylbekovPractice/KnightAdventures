@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    [SerializeField]
-    private float _cameraStep = 1.2f;
+    private float _cameraStep = 1f;
+    private float _tempStep;
 
     private Transform _playerPosition;
 
@@ -29,34 +29,36 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         transform.position = _playerPosition.position;
+        _tempStep = _cameraStep * Time.deltaTime; ;
 
         if (transform.position.x >= _innerBorderMaxX)
         {
-            _innerBorderMaxX += _cameraStep * Time.deltaTime;
-            _innerBorderMinX += _cameraStep * Time.deltaTime;
-            _cameraPosition.x += _cameraStep * Time.deltaTime;
+            _innerBorderMaxX += _tempStep;
+            _innerBorderMinX += _tempStep;
+            _cameraPosition.x += _tempStep;
         }
 
 
         if (transform.position.x <= _innerBorderMinX)
         {
-            _innerBorderMinX -= _cameraStep * Time.deltaTime;
-            _innerBorderMaxX -= _cameraStep * Time.deltaTime;
-            _cameraPosition.x -= _cameraStep * Time.deltaTime;
+            _innerBorderMinX -= _tempStep;
+            _innerBorderMaxX -= _tempStep;
+            _cameraPosition.x -= _tempStep;
         }
 
         if (transform.position.y >= _innerBorderMaxY)
         {
-            _innerBorderMaxY += _cameraStep * Time.deltaTime;
-            _innerBorderMinY += _cameraStep * Time.deltaTime;
-            _cameraPosition.y += _cameraStep * Time.deltaTime;
+            _innerBorderMaxY += _tempStep;
+            _innerBorderMinY += _tempStep;
+            _cameraPosition.y += _tempStep;
         }
 
         if (transform.position.y <= _innerBorderMinY)
         {
-            _innerBorderMaxY -= _cameraStep * Time.deltaTime;
-            _innerBorderMinY -= _cameraStep * Time.deltaTime;
-            _cameraPosition.y -= _cameraStep * Time.deltaTime;
+
+            _innerBorderMaxY -= _tempStep;
+            _innerBorderMinY -= _tempStep;
+            _cameraPosition.y -= _tempStep;
         }
 
         transform.position = _cameraPosition;
