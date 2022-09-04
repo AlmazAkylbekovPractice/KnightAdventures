@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    private float _cameraStep = 2f;
+    private float _cameraStep = 2.5f;
     private float _tempStep;
 
     private Transform _playerPosition;
