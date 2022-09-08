@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5e28835bb59bb4a42a0b30b70a885bff
+guid: 12fa0122e6f344ff195598e62695e44d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -140,190 +140,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Walk_Down_0
+      name: Thrust_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.6664016, y: 0.48403904}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8e5c8670d96584b15b0a995e43011ad0
-      internalID: -1904476128
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.67056143, y: 0.4960098}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c5aa5d394421a4bfb92e24e15e37b64a
-      internalID: 2075825234
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.6753134, y: 0.4949042}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f8092d27591a24432987fbbf2ac0a319
-      internalID: -959590914
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_3
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 5
+        x: 11
+        y: 4
         width: 46
+        height: 49
+      alignment: 9
+      pivot: {x: 0.44125846, y: 0.051901177}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc24ce508112e41aa96c1e0cdb023818
+      internalID: 427525308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_1
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 4
+        width: 43
+        height: 49
+      alignment: 9
+      pivot: {x: 0.36977422, y: 0.056691684}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 890bbaedc390d43f4bc21738d393b2c0
+      internalID: -1908757699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_2
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 4
+        width: 36
+        height: 49
+      alignment: 9
+      pivot: {x: 0.58084613, y: 0.06857113}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a8bc1ae49e45429db1ea00762f6902d
+      internalID: 1077231582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_3
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 5
+        width: 27
+        height: 49
+      alignment: 9
+      pivot: {x: 0.5058871, y: 0.05559571}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bce3b76d2aa647009e2ef088ee9045a
+      internalID: -1822308347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_4
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 5
+        width: 26
+        height: 47
+      alignment: 9
+      pivot: {x: 0.48388436, y: 0.06332945}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eab6f024444a54b5d8b987c6e26366bc
+      internalID: -408713963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_5
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 4
+        width: 26
         height: 48
       alignment: 9
-      pivot: {x: 0.65741235, y: 0.48959628}
+      pivot: {x: 0.46091402, y: 0.043026}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93eb610c0ef0f43eaabe54dcb3874f78
-      internalID: 2057450580
+      spriteID: ec9b6448d69a542dd859067c959452a4
+      internalID: 757519219
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Walk_Down_4
+      name: Thrust_6
       rect:
         serializedVersion: 2
-        x: 256
+        x: 402
         y: 5
-        width: 47
+        width: 26
+        height: 47
+      alignment: 9
+      pivot: {x: 0.4716574, y: 0.03248224}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b251d5072f51545a5a5a8ef5f4ec4016
+      internalID: -1008484701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Thrust_7
+      rect:
+        serializedVersion: 2
+        x: 465
+        y: 5
+        width: 27
         height: 49
       alignment: 9
-      pivot: {x: 0.6646878, y: 0.49999988}
+      pivot: {x: 0.50000113, y: 0.026007574}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a4f5387ed76e420fad86719f0d5659a
-      internalID: -1674753897
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.68062574, y: 0.4949042}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dfa29b48546d94ad98515251746932cd
-      internalID: -1076638874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.67000043, y: 0.49999988}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bed2c0d434a18479099cfd79bfd24a78
-      internalID: -372699833
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 5
-        width: 47
-        height: 48
-      alignment: 9
-      pivot: {x: 0.67000043, y: 0.49479815}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2e3ce42ed2bf04eeab2d79eeffdd9183
-      internalID: 1316503138
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_Down_8
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 5
-        width: 47
-        height: 49
-      alignment: 9
-      pivot: {x: 0.67531246, y: 0.49999988}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c2a684bee503b43ec9afe8a3384e34cd
-      internalID: -515881555
+      spriteID: a97c400663aed4a53b030da105ae43a0
+      internalID: 2093080107
       vertices: []
       indices: 
       edges: []
@@ -339,15 +318,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Walk_Down_5: -1076638874
-      Walk_Down_1: 2075825234
-      Walk_Down_3: 2057450580
-      Walk_Down_4: -1674753897
-      Walk_Down_0: -1904476128
-      Walk_Down_6: -372699833
-      Walk_Down_7: 1316503138
-      Walk_Down_8: -515881555
-      Walk_Down_2: -959590914
+      Thrust_3: -1822308347
+      Thrust_5: 757519219
+      Thrust_7: 2093080107
+      Thrust_0: 427525308
+      Thrust_4: -408713963
+      Thrust_6: -1008484701
+      Thrust_1: -1908757699
+      Thrust_2: 1077231582
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

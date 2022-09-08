@@ -14,11 +14,7 @@ public class Villager : MonoBehaviour
     private float _walkSpeed = 2f;
     private Animator _animator;
 
-
     private bool _isHarvesting;
-
-    private float XAxis;
-    private float YAxis;
 
     // Start is called before the first frame update
     void Awake()
@@ -56,10 +52,6 @@ public class Villager : MonoBehaviour
                 _harvestPoints.Add(harvestPoint);
             }
         }
-
-       
-
-        
     }
 
 
@@ -103,7 +95,6 @@ public class Villager : MonoBehaviour
         _animator.SetFloat("Horizontal", 0);
         _animator.SetFloat("Vertical", 1);
 
-
         transform.position =
             Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, _harvestPoints[0].y), _walkSpeed * Time.deltaTime);
     }
@@ -130,6 +121,7 @@ public class Villager : MonoBehaviour
         _harvestPoints.RemoveAt(0);
         _isHarvesting = false;
         _animator.SetBool("Harvesting", _isHarvesting);
+
         CancelInvoke("EndHarvest");
     }
 
