@@ -7,17 +7,22 @@ public class Altar : MonoBehaviour
     [SerializeField] private GameObject _runes;
 
     private Transform _playerPosition;
+    private CircleCollider2D _collider;
     private bool isNear;
 
     private void Awake()
     {
         _playerPosition = GameObject.FindWithTag("Player").transform;
+        _collider = GetComponent<CircleCollider2D>();
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Vector2.Distance(_playerPosition.position,transform.position) < 4f)
-            _runes.SetActive(true);
-        else _runes.SetActive(false);
+        _runes.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _runes.SetActive(false);
     }
 }
