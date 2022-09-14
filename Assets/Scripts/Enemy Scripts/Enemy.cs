@@ -10,22 +10,24 @@ public class Enemy : MonoBehaviour
 
     private Animator _animator;
     private CircleCollider2D _circleCollider2D;
+    private Rigidbody2D _rigidbody;
 
     private Vector3 _startPosition;
-    private Vector2 _nextPosition;
+    private Vector3 _nextPosition;
+    private Vector3 _direction;
     private Vector2 _enemyDirection;
 
     private bool isChasing;
     
 
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         LoadEnemy();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         MoveToPoint();
     }
@@ -34,7 +36,9 @@ public class Enemy : MonoBehaviour
     private void LoadEnemy()
     {
         _animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _startPosition = transform.position;
+
         _player = GameObject.FindWithTag("Player");
 
         ChooseNextPosition();
@@ -47,84 +51,64 @@ public class Enemy : MonoBehaviour
 
         _nextPosition.x = nextX;
         _nextPosition.y = nextY;
+        _nextPosition.z = 0;
+
+        Debug.Log(_nextPosition);
     }
 
     private void MoveToPoint()
     {
         if (!isChasing)
         {
-            if (_nextPosition.x > transform.position.x)
-                MoveRight(_nextPosition.x);
-            else if (_nextPosition.x < transform.position.x)
-                MoveLeft(_nextPosition.x);
-            else if (_nextPosition.y > transform.position.y)
-                MoveUp(_nextPosition.y);
-            else if (_nextPosition.y < transform.position.y)
-                MoveDown(_nextPosition.y);
-
-            _animator.SetFloat("Horizontal", _enemyDirection.x);
-            _animator.SetFloat("Vertical", _enemyDirection.y);
-
-            if (transform.position.x == _nextPosition.x &&
-                transform.position.y == _nextPosition.y)
-                ChooseNextPosition();
+            _direction = _nextPosition - transform.position;
         } else
         {
-            ChasePlayer();
+            _direction = _player.transform.position - transform.position;
         }
+
+
+        if (_direction.normalized.x > _rigidbody.position.x)
+            MoveRight();
+        else if (_direction.normalized.x < _rigidbody.position.x)
+            MoveLeft();
+        else if (_direction.normalized.y > _rigidbody.position.y)
+            MoveUp();  
+        else if (_direction.normalized.y < _rigidbody.position.y)
+            MoveDown();
+
+        if ((int) _nextPosition.x == (int) _rigidbody.position.x &&
+            (int) _nextPosition.y == (int) _rigidbody.position.y)
+            ChooseNextPosition();
+
+        _rigidbody.MovePosition(transform.position + _direction.normalized * _speed * Time.fixedDeltaTime);
+
+        _animator.SetFloat("Horizontal",_enemyDirection.x);
+        _animator.SetFloat("Vertical", _enemyDirection.y);
     }
 
-    private void MoveRight(float inputPosX)
+    private void MoveRight()
     {
         _enemyDirection.x = 1;
         _enemyDirection.y = 0;
 
-        transform.position =
-            Vector2.MoveTowards(transform.position, new Vector2(inputPosX,transform.position.y),_speed * Time.deltaTime);
     }
 
-    private void MoveLeft(float inputPosX)
+    private void MoveLeft()
     {
         _enemyDirection.x = -1;
         _enemyDirection.y = 0;
-
-        transform.position =
-            Vector2.MoveTowards(transform.position, new Vector2(inputPosX, transform.position.y), _speed * Time.deltaTime);
     }
 
-    private void MoveUp(float inputY)
+    private void MoveUp()
     {
         _enemyDirection.x = 0;
         _enemyDirection.y = 1;
-
-        transform.position =
-            Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, inputY), _speed * Time.deltaTime);
     }
 
-    private void MoveDown(float inputY)
+    private void MoveDown()
     {
         _enemyDirection.x = 0;
         _enemyDirection.y = -1;
-
-        transform.position =
-            Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, inputY), _speed * Time.deltaTime);
-    }
-
-    private void ChasePlayer()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, _player.transform.position, _speed * Time.deltaTime);
-
-        if (_player.transform.position.x > transform.position.x)
-            MoveRight(_player.transform.position.x);
-        else if (_player.transform.position.x < transform.position.x)
-            MoveLeft(_player.transform.position.x);
-        else if (_player.transform.position.y > transform.position.y)
-            MoveUp(_player.transform.position.y);
-        else if (_player.transform.position.y < transform.position.y)
-            MoveDown(_player.transform.position.y);
-
-        _animator.SetFloat("Horizontal", _enemyDirection.x);
-        _animator.SetFloat("Vertical", _enemyDirection.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
