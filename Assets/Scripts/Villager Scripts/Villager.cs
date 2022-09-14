@@ -13,9 +13,11 @@ public class Villager : MonoBehaviour
     private List<Vector2> _harvestPoints;
 
     private float _walkSpeed = 2f;
+
     private Animator _animator;
 
     private bool _isHarvesting;
+
     private Vector2 _villagerDirection;
 
     // Start is called before the first frame update
@@ -67,10 +69,8 @@ public class Villager : MonoBehaviour
             var randY = Random.Range(_outterBorderMinY, _outterBorderMaxY);
             var harvestPoint = new Vector2(randX, randY);
             _harvestPoints.Add(harvestPoint);
-
         }
     }
-
 
     private void TravelToPoints()
     {
