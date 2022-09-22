@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _walkRadius = 1f;
-    [SerializeField] private float _speed = 1f;
-    [SerializeField] private GameObject _player;
+    [Header("Enemy Stats")]
+    [SerializeField] private float _walkingSpeed = 1f;
+    [SerializeField] private float _walkingRadius = 1f;
+    [SerializeField] private float _slashDamage = 2f;
+
+    private GameObject _player;
 
     private Animator _animator;
     private CircleCollider2D _circleCollider2D;
@@ -14,10 +17,13 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _startPosition;
     private Vector3 _nextPosition;
-    private Vector3 _direction;
     private Vector2 _enemyDirection;
+    private Vector3 _targetPosition;
 
     private bool isChasing;
+
+    private string PLAYER_TAG = "Player";
+    private string SLASH_ANIM_TAG = "Slash";
     
 
     // Start is called before the first frame update
@@ -27,7 +33,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void LateUpdate()
     {
         MoveToPoint();
     }
@@ -39,48 +45,47 @@ public class Enemy : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _startPosition = transform.position;
 
-        _player = GameObject.FindWithTag("Player");
+        _player = GameObject.FindWithTag(PLAYER_TAG);
 
         ChooseNextPosition();
     }
 
     private void ChooseNextPosition()
     {
-        var nextX = Random.Range(_startPosition.x - _walkRadius, _startPosition.x + _walkRadius);
-        var nextY = Random.Range(_startPosition.y - _walkRadius, _startPosition.y + _walkRadius);
+        var nextX = Random.Range(_startPosition.x - _walkingRadius, _startPosition.x + _walkingRadius);
+        var nextY = Random.Range(_startPosition.y - _walkingRadius, _startPosition.y + _walkingRadius);
 
         _nextPosition.x = nextX;
         _nextPosition.y = nextY;
         _nextPosition.z = 0;
-
-        Debug.Log(_nextPosition);
     }
 
     private void MoveToPoint()
     {
-        if (!isChasing)
+        if (isChasing)
+            _targetPosition = _player.transform.position;
+        else
+            _targetPosition = _nextPosition;
+
+        if (Mathf.Abs(_targetPosition.x - transform.position.x) > Mathf.Abs(_targetPosition.y - transform.position.y))
         {
-            _direction = _nextPosition - transform.position;
+            if (_targetPosition.x > transform.position.x)
+                MoveRight();
+            else if (_targetPosition.x < transform.position.x)
+                MoveLeft();
         } else
         {
-            _direction = _player.transform.position - transform.position;
+            if (_targetPosition.y > transform.position.y)
+                MoveUp();
+            else if (_targetPosition.y < transform.position.y)
+                MoveDown();
         }
 
-
-        if (_direction.normalized.x > _rigidbody.position.x)
-            MoveRight();
-        else if (_direction.normalized.x < _rigidbody.position.x)
-            MoveLeft();
-        else if (_direction.normalized.y > _rigidbody.position.y)
-            MoveUp();  
-        else if (_direction.normalized.y < _rigidbody.position.y)
-            MoveDown();
-
-        if ((int) _nextPosition.x == (int) _rigidbody.position.x &&
-            (int) _nextPosition.y == (int) _rigidbody.position.y)
+        if ((int)_targetPosition.x == (int) transform.position.x &&
+            (int)_targetPosition.y == (int) transform.position.y)
             ChooseNextPosition();
 
-        _rigidbody.MovePosition(transform.position + _direction.normalized * _speed * Time.fixedDeltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _targetPosition,_walkingSpeed * Time.deltaTime);
 
         _animator.SetFloat("Horizontal",_enemyDirection.x);
         _animator.SetFloat("Vertical", _enemyDirection.y);
@@ -90,7 +95,6 @@ public class Enemy : MonoBehaviour
     {
         _enemyDirection.x = 1;
         _enemyDirection.y = 0;
-
     }
 
     private void MoveLeft()
@@ -109,24 +113,39 @@ public class Enemy : MonoBehaviour
     {
         _enemyDirection.x = 0;
         _enemyDirection.y = -1;
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PLAYER_TAG))
         {
             isChasing = true;
-            _speed = 1.5f;
+            _walkingSpeed = 1.5f;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PLAYER_TAG))
         {
             isChasing = false;
-            _speed = 1f;
+            _walkingSpeed = 1f;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == PLAYER_TAG)
+        {
+            _animator.SetBool(SLASH_ANIM_TAG, true);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _animator.SetBool(SLASH_ANIM_TAG, false);
     }
 
 }
