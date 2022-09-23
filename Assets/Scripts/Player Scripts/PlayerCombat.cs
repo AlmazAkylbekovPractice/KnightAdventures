@@ -29,8 +29,10 @@ public class PlayerCombat : MonoBehaviour
 
     private void Slash()
     {
+
         SlashAttack();
         SlashAnimation();
+
     }
 
     private void AdjustAttackPoint()

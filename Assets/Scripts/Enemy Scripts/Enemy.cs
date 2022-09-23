@@ -29,16 +29,17 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        LoadEnemy();
+        LoadCharacter();
     }
 
     private void LateUpdate()
     {
         MoveToPoint();
         PlayerDetection();
+        ApplyDamage();
     }
 
-    private void LoadEnemy()
+    private void LoadCharacter()
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -58,7 +59,7 @@ public class Enemy : MonoBehaviour
 
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
 
-        Invoke("EnemyStopHurt", 0.25f);
+        Invoke("StopHurt", 0.25f);
 
         if (_currentHealth <= 0)
         {
@@ -66,7 +67,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void EnemyStopHurt()
+    private void StopHurt()
     {
 
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
@@ -96,6 +97,19 @@ public class Enemy : MonoBehaviour
             _walkingSpeed = 1f;
         }
         
+    }
+
+    private void ApplyDamage()
+    {
+        if (Vector2.Distance(transform.position, _player.transform.position) < 1.5f)
+        {
+            _walkingSpeed = 0.5f;
+            _animator.SetBool(SLASH_ANIM_TAG, true);
+        } else
+        {
+            _animator.SetBool(SLASH_ANIM_TAG, false);
+            _walkingSpeed = 1.5f;
+        }
     }
 
     private void ChooseNextPosition()
@@ -161,19 +175,6 @@ public class Enemy : MonoBehaviour
     {
         _enemyDirection.x = 0;
         _enemyDirection.y = -1;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == PLAYER_TAG)
-        {
-            _animator.SetBool(SLASH_ANIM_TAG, true);
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        _animator.SetBool(SLASH_ANIM_TAG, false);
     }
 
 }

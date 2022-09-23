@@ -23792,8 +23792,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkingSpeed: 1
   _walkingRadius: 1
-  _currentHealth: 80
-  _viewRange: 3
+  _currentHealth: 140
+  _viewRange: 5
 --- !u!95 &477493405
 Animator:
   serializedVersion: 4
@@ -23874,7 +23874,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477493403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.005, y: 15.93, z: 0}
+  m_LocalPosition: {x: -0.005, y: 14.07, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31634,10 +31634,10 @@ MonoBehaviour:
     m_Bits: 128
   attackDamage: 20
   attackPoints:
-  - {x: 0, y: 0.2, z: 0}
-  - {x: 0, y: -0.3, z: 0}
-  - {x: 0.25, y: 0, z: 0}
-  - {x: -0.25, y: 0, z: 0}
+  - {x: 0, y: 0.5, z: 0}
+  - {x: 0, y: -0.6, z: 0}
+  - {x: 0.7, y: 0, z: 0}
+  - {x: -0.7, y: 0, z: 0}
 --- !u!114 &2327114189339203976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31722,7 +31722,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2327114189339203978}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.02, y: -5.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
