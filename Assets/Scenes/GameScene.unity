@@ -23768,10 +23768,9 @@ GameObject:
   - component: {fileID: 477493407}
   - component: {fileID: 477493406}
   - component: {fileID: 477493405}
-  - component: {fileID: 477493404}
-  - component: {fileID: 477493408}
   - component: {fileID: 477493409}
   - component: {fileID: 477493410}
+  - component: {fileID: 477493404}
   m_Layer: 7
   m_Name: Orc
   m_TagString: Untagged
@@ -23793,7 +23792,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkingSpeed: 1
   _walkingRadius: 1
-  _slashDamage: 2
+  _currentHealth: 80
+  _viewRange: 3
 --- !u!95 &477493405
 Animator:
   serializedVersion: 4
@@ -23881,22 +23881,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &477493408
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477493403}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.6717259
 --- !u!50 &477493409
 Rigidbody2D:
   serializedVersion: 4
@@ -23909,7 +23893,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 100
+  m_Mass: 500
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -27890,6 +27874,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.9188237, y: 3.1836414}
   m_EdgeRadius: 0
+--- !u!1 &1415507365
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1415507366}
+  m_Layer: 6
+  m_Name: Attack Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1415507366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415507365}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2327114189339203982}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1427758050
 GameObject:
   m_ObjectHideFlags: 0
@@ -31612,6 +31627,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slashButton: {fileID: 1506867598}
+  attackPoint: {fileID: 1415507366}
+  attackRange: 0.7
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  attackDamage: 20
+  attackPoints:
+  - {x: 0, y: 0.2, z: 0}
+  - {x: 0, y: -0.3, z: 0}
+  - {x: 0.25, y: 0, z: 0}
+  - {x: -0.25, y: 0, z: 0}
 --- !u!114 &2327114189339203976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31699,7 +31725,8 @@ Transform:
   m_LocalPosition: {x: -0.02, y: -5.2, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1415507366}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

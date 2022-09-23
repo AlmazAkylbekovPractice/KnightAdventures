@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     private float _playerSide = 1;
 
-
     private void Awake()
     {
         LoadCompanents();

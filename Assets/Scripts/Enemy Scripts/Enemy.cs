@@ -7,12 +7,13 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Stats")]
     [SerializeField] private float _walkingSpeed = 1f;
     [SerializeField] private float _walkingRadius = 1f;
-    [SerializeField] private float _slashDamage = 2f;
+    [SerializeField] private int _currentHealth = 140;
+    [SerializeField] private float _viewRange = 6f;
 
     private GameObject _player;
 
     private Animator _animator;
-    private CircleCollider2D _circleCollider2D;
+    private BoxCollider2D _collider;
     private Rigidbody2D _rigidbody;
 
     private Vector3 _startPosition;
@@ -26,28 +27,75 @@ public class Enemy : MonoBehaviour
     private string SLASH_ANIM_TAG = "Slash";
     
 
-    // Start is called before the first frame update
     private void Awake()
     {
         LoadEnemy();
     }
 
-    // Update is called once per frame
     private void LateUpdate()
     {
         MoveToPoint();
+        PlayerDetection();
     }
-
 
     private void LoadEnemy()
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<BoxCollider2D>();
+
         _startPosition = transform.position;
 
         _player = GameObject.FindWithTag(PLAYER_TAG);
 
         ChooseNextPosition();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+
+
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
+
+        Invoke("EnemyStopHurt", 0.25f);
+
+        if (_currentHealth <= 0)
+        {
+            Dies();
+        }
+    }
+
+    private void EnemyStopHurt()
+    {
+
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
+    }
+
+    private void Dies()
+    {
+        Destroy(_rigidbody);
+        Destroy(_collider);
+
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+
+        enabled = false;
+
+        _animator.SetBool("Dies", true);
+    }
+
+    private void PlayerDetection()
+    {
+        if (Vector2.Distance(transform.position, _player.transform.position) < _viewRange)
+        {
+            isChasing = true;
+            _walkingSpeed = 1.5f;
+        } else
+        {
+            isChasing = false;
+            _walkingSpeed = 1f;
+        }
+        
     }
 
     private void ChooseNextPosition()
@@ -113,26 +161,6 @@ public class Enemy : MonoBehaviour
     {
         _enemyDirection.x = 0;
         _enemyDirection.y = -1;
-
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag(PLAYER_TAG))
-        {
-            isChasing = true;
-            _walkingSpeed = 1.5f;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(PLAYER_TAG))
-        {
-            isChasing = false;
-            _walkingSpeed = 1f;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
