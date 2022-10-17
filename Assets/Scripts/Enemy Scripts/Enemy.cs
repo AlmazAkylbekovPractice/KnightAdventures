@@ -1,67 +1,118 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Enemy Stats")]
-    [SerializeField] private float _walkingSpeed = 1f;
-    [SerializeField] private float _walkingRadius = 1f;
-    [SerializeField] private int _currentHealth = 140;
-    [SerializeField] private float _viewRange = 6f;
+    //Enemy State Machine
+    private Dictionary<Type, IEnemyBehavior> enemyBehaviorsMap;
+    private IEnemyBehavior behaviourCurrent;
 
-    private GameObject _player;
+    //Player
+    [HideInInspector] public GameObject player;
 
-    private Animator _animator;
-    private BoxCollider2D _collider;
-    private Rigidbody2D _rigidbody;
+    //Character Components
+    public Rigidbody2D rigidbody;
+    public Animator animator;
+    public BoxCollider2D collider;
 
-    private Vector3 _startPosition;
-    private Vector3 _nextPosition;
-    private Vector2 _enemyDirection;
-    private Vector3 _targetPosition;
-
-    private bool isChasing;
-
-    private string PLAYER_TAG = "Player";
-    private string SLASH_ANIM_TAG = "Slash";
-    
+    //Enemy Components
+    [HideInInspector] public Vector2 direction;
+    [HideInInspector] public Vector3 startPos;
+    [HideInInspector] public Vector3 nextPosition;
+    [HideInInspector] public Vector3 targetPosition;
+    [SerializeField] private int currentHealth = 140;
+    [SerializeField] public float walkingRadius = 1f;
+    [SerializeField] public float walkingSpeed = 1f;
+    [SerializeField] public float veiwRange = 6f;
 
     private void Awake()
     {
-        LoadCharacter();
+        rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        collider = GetComponent<BoxCollider2D>();
+
+        startPos = transform.position;
+        player = GameObject.FindWithTag("Player");
     }
 
-    private void LateUpdate()
+    private void Start()
     {
-        MoveToPoint();
-        PlayerDetection();
-        ApplyDamage();
+        this.InitBehaviors();
+        this.SetBehaviorByDefault();
     }
 
-    private void LoadCharacter()
+    private void InitBehaviors()
     {
-        _animator = GetComponent<Animator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<BoxCollider2D>();
+        this.enemyBehaviorsMap = new Dictionary<Type, IEnemyBehavior>();
 
-        _startPosition = transform.position;
-
-        _player = GameObject.FindWithTag(PLAYER_TAG);
-
-        ChooseNextPosition();
+        this.enemyBehaviorsMap[typeof(EnemyWalkBehavior)] = new EnemyWalkBehavior();
+        this.enemyBehaviorsMap[typeof(EnemyCombatBehavior)] = new EnemyCombatBehavior();
     }
+
+    private void SetBehavior(IEnemyBehavior newBehavior)
+    {
+        if (this.behaviourCurrent != null)
+            this.behaviourCurrent.Exit(this);
+
+        this.behaviourCurrent = newBehavior;
+        this.behaviourCurrent.Enter(this);
+    }
+
+    private void SetBehaviorByDefault()
+    {
+        this.SetBehaviorWalk();
+    }
+
+    private IEnemyBehavior GetBehavior<T>() where T : IEnemyBehavior
+    {
+        var type = typeof(T);
+        return this.enemyBehaviorsMap[type];
+    }
+
+    // <summary>
+    /// Update Input and Condition Parameters
+    /// </summary>
+    private void Update()
+    {
+        if (this.behaviourCurrent != null)
+            this.behaviourCurrent.Update(this);
+    }
+
+    /// <summary>
+    /// Fixed update to maintain physics
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if (this.behaviourCurrent != null)
+            this.behaviourCurrent.FixedUpdate(this);
+    }
+
+    public void SetBehaviorWalk()
+    {
+        var behavior = this.GetBehavior<EnemyWalkBehavior>();
+        this.SetBehavior(behavior);
+    }
+
+    public void SetCombatBehavior()
+    {
+        var behavior = this.GetBehavior<EnemyCombatBehavior>();
+        this.SetBehavior(behavior);
+    }
+
+    //Combat Properties
 
     public void TakeDamage(int damage)
     {
-        _currentHealth -= damage;
+        currentHealth -= damage;
 
 
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
 
         Invoke("StopHurt", 0.25f);
 
-        if (_currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             Dies();
         }
@@ -69,112 +120,16 @@ public class Enemy : MonoBehaviour
 
     private void StopHurt()
     {
-
         gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
     }
 
     private void Dies()
     {
-        Destroy(_rigidbody);
-        Destroy(_collider);
-
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
-
         enabled = false;
+        animator.SetBool("Dies", true);
 
-        _animator.SetBool("Dies", true);
+        Destroy(rigidbody);
+        Destroy(collider);
     }
-
-    private void PlayerDetection()
-    {
-        if (Vector2.Distance(transform.position, _player.transform.position) < _viewRange)
-        {
-            isChasing = true;
-            _walkingSpeed = 1.5f;
-        } else
-        {
-            isChasing = false;
-            _walkingSpeed = 1f;
-        }
-        
-    }
-
-    private void ApplyDamage()
-    {
-        if (Vector2.Distance(transform.position, _player.transform.position) < 1.5f)
-        {
-            _walkingSpeed = 0.5f;
-            _animator.SetBool(SLASH_ANIM_TAG, true);
-        } else
-        {
-            _animator.SetBool(SLASH_ANIM_TAG, false);
-            _walkingSpeed = 1.5f;
-        }
-    }
-
-    private void ChooseNextPosition()
-    {
-        var nextX = Random.Range(_startPosition.x - _walkingRadius, _startPosition.x + _walkingRadius);
-        var nextY = Random.Range(_startPosition.y - _walkingRadius, _startPosition.y + _walkingRadius);
-
-        _nextPosition.x = nextX;
-        _nextPosition.y = nextY;
-        _nextPosition.z = 0;
-    }
-
-    private void MoveToPoint()
-    {
-        if (isChasing)
-            _targetPosition = _player.transform.position;
-        else
-            _targetPosition = _nextPosition;
-
-        if (Mathf.Abs(_targetPosition.x - transform.position.x) > Mathf.Abs(_targetPosition.y - transform.position.y))
-        {
-            if (_targetPosition.x > transform.position.x)
-                MoveRight();
-            else if (_targetPosition.x < transform.position.x)
-                MoveLeft();
-        } else
-        {
-            if (_targetPosition.y > transform.position.y)
-                MoveUp();
-            else if (_targetPosition.y < transform.position.y)
-                MoveDown();
-        }
-
-        if ((int)_targetPosition.x == (int) transform.position.x &&
-            (int)_targetPosition.y == (int) transform.position.y)
-            ChooseNextPosition();
-
-        transform.position = Vector2.MoveTowards(transform.position, _targetPosition,_walkingSpeed * Time.deltaTime);
-
-        _animator.SetFloat("Horizontal",_enemyDirection.x);
-        _animator.SetFloat("Vertical", _enemyDirection.y);
-    }
-
-    private void MoveRight()
-    {
-        _enemyDirection.x = 1;
-        _enemyDirection.y = 0;
-    }
-
-    private void MoveLeft()
-    {
-        _enemyDirection.x = -1;
-        _enemyDirection.y = 0;
-    }
-
-    private void MoveUp()
-    {
-        _enemyDirection.x = 0;
-        _enemyDirection.y = 1;
-    }
-
-    private void MoveDown()
-    {
-        _enemyDirection.x = 0;
-        _enemyDirection.y = -1;
-    }
-
 }
