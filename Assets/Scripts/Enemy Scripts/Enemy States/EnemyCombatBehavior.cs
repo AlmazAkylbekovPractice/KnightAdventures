@@ -6,7 +6,7 @@ public class EnemyCombatBehavior : IEnemyBehavior
 {
     void IEnemyBehavior.Enter(Enemy enemy)
     {
-        enemy.targetPosition = enemy.player.transform.position;
+        
         enemy.walkingSpeed = 1.5f;
     }
 
@@ -17,6 +17,8 @@ public class EnemyCombatBehavior : IEnemyBehavior
 
     void IEnemyBehavior.Update(Enemy enemy)
     {
+        enemy.targetPosition = enemy.player.transform.position;
+
         if (Mathf.Abs(enemy.targetPosition.x - enemy.transform.position.x) > Mathf.Abs(enemy.targetPosition.y - enemy.transform.position.y))
         {
             if (enemy.targetPosition.x > enemy.transform.position.x)
@@ -64,6 +66,9 @@ public class EnemyCombatBehavior : IEnemyBehavior
 
     void IEnemyBehavior.FixedUpdate(Enemy enemy)
     {
+        enemy.transform.position = Vector2.MoveTowards(enemy.transform.position, enemy.targetPosition, enemy.walkingSpeed * Time.deltaTime);
 
+        enemy.animator.SetFloat("Horizontal", enemy.direction.x);
+        enemy.animator.SetFloat("Vertical", enemy.direction.y);
     }
 }

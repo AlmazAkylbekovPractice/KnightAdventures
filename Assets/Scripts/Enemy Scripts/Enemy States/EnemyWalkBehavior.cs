@@ -8,7 +8,8 @@ public class EnemyWalkBehavior : IEnemyBehavior
     {
         //Choosing next position
         enemy.nextPosition.x = Random.Range(enemy.startPos.x - enemy.walkingRadius, enemy.startPos.x + enemy.walkingRadius);
-        enemy.nextPosition.y = Random.Range(enemy.startPos.y - enemy.walkingRadius, enemy.startPos.y + enemy.walkingRadius); 
+        enemy.nextPosition.y = Random.Range(enemy.startPos.y - enemy.walkingRadius, enemy.startPos.y + enemy.walkingRadius);
+        
         enemy.targetPosition = enemy.nextPosition;
 
         //Setting walk speed
@@ -49,7 +50,8 @@ public class EnemyWalkBehavior : IEnemyBehavior
         }
 
         if ((int)enemy.targetPosition.x == (int)enemy.transform.position.x &&
-            (int)enemy.targetPosition.y == (int)enemy.transform.position.y){
+            (int)enemy.targetPosition.y == (int)enemy.transform.position.y)
+        {
             enemy.nextPosition.x = Random.Range(enemy.startPos.x - enemy.walkingRadius, enemy.startPos.x + enemy.walkingRadius);
             enemy.nextPosition.y = Random.Range(enemy.startPos.y - enemy.walkingRadius, enemy.startPos.y + enemy.walkingRadius);
             enemy.targetPosition = enemy.nextPosition;
